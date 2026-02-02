@@ -1,693 +1,265 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Adi Maulana - Flutter Developer</title>
+    <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #02569B;
-            --secondary: #13B9FD;
-            --accent: #54C5F8;
-            --dark: #001D2E;
-            --darker: #000A12;
-            --light: #E8F4F8;
-            --text: #0A1929;
-            --flutter-blue: #027DFD;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'JetBrains Mono', monospace;
-            background: var(--darker);
-            color: var(--light);
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-
-        /* Animated background */
-        .bg-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background: 
-                radial-gradient(circle at 20% 50%, rgba(2, 86, 155, 0.15) 0%, transparent 50%),
-                radial-gradient(circle at 80% 80%, rgba(19, 185, 253, 0.1) 0%, transparent 50%),
-                radial-gradient(circle at 40% 20%, rgba(84, 197, 248, 0.08) 0%, transparent 50%);
-        }
-
-        .bg-grid {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            background-image: 
-                linear-gradient(rgba(2, 125, 253, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(2, 125, 253, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
-            animation: gridMove 20s linear infinite;
-        }
-
-        @keyframes gridMove {
-            0% { transform: translate(0, 0); }
-            100% { transform: translate(50px, 50px); }
-        }
-
-        /* Header */
-        header {
-            padding: 2rem 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            position: sticky;
-            top: 0;
-            background: rgba(0, 10, 18, 0.8);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(2, 125, 253, 0.1);
-            z-index: 100;
-            animation: slideDown 0.6s ease;
-        }
-
-        @keyframes slideDown {
-            from {
-                transform: translateY(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        .logo {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.5rem;
-            font-weight: 800;
-            background: linear-gradient(135deg, var(--secondary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        nav ul {
-            display: flex;
-            gap: 2rem;
-            list-style: none;
-        }
-
-        nav a {
-            color: var(--light);
-            text-decoration: none;
-            font-size: 0.9rem;
-            position: relative;
-            transition: color 0.3s;
-        }
-
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--secondary);
-            transition: width 0.3s;
-        }
-
-        nav a:hover::after {
-            width: 100%;
-        }
-
-        /* Hero Section */
-        .hero {
-            min-height: 90vh;
-            display: flex;
-            align-items: center;
-            padding: 0 5%;
-            position: relative;
-        }
-
-        .hero-content {
-            max-width: 800px;
-            animation: fadeInUp 1s ease;
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .hero-tag {
-            display: inline-block;
-            padding: 0.5rem 1rem;
-            background: rgba(2, 125, 253, 0.1);
-            border: 1px solid var(--flutter-blue);
-            border-radius: 50px;
-            font-size: 0.85rem;
-            margin-bottom: 1.5rem;
-            animation: fadeInUp 1s ease 0.2s both;
-        }
-
-        .hero h1 {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2.5rem, 8vw, 5rem);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-            animation: fadeInUp 1s ease 0.4s both;
-        }
-
-        .gradient-text {
-            background: linear-gradient(135deg, var(--secondary) 0%, var(--accent) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 1.1rem;
-            color: rgba(232, 244, 248, 0.7);
-            margin-bottom: 2rem;
-            max-width: 600px;
-            animation: fadeInUp 1s ease 0.6s both;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            flex-wrap: wrap;
-            animation: fadeInUp 1s ease 0.8s both;
-        }
-
-        .btn {
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: 8px;
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.95rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            box-shadow: 0 4px 20px rgba(2, 125, 253, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 30px rgba(2, 125, 253, 0.5);
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--light);
-            border: 1px solid var(--secondary);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(2, 125, 253, 0.1);
-            border-color: var(--accent);
-        }
-
-        /* Flutter Logo Animation */
-        .flutter-icon {
-            position: absolute;
-            right: 10%;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 400px;
-            height: 400px;
-            opacity: 0.1;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(-50%) rotate(0deg); }
-            50% { transform: translateY(-55%) rotate(5deg); }
-        }
-
-        /* Section Styles */
-        section {
-            padding: 5rem 5%;
-            position: relative;
-        }
-
-        .section-title {
-            font-family: 'Syne', sans-serif;
-            font-size: clamp(2rem, 5vw, 3rem);
-            font-weight: 700;
-            margin-bottom: 3rem;
-            text-align: center;
-        }
-
-        /* Skills Section */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .skill-card {
-            background: rgba(2, 86, 155, 0.05);
-            border: 1px solid rgba(2, 125, 253, 0.2);
-            border-radius: 12px;
-            padding: 2rem;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .skill-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: linear-gradient(90deg, var(--secondary), var(--accent));
-            transform: scaleX(0);
-            transform-origin: left;
-            transition: transform 0.3s;
-        }
-
-        .skill-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .skill-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--secondary);
-            box-shadow: 0 10px 30px rgba(2, 125, 253, 0.2);
-        }
-
-        .skill-icon {
-            font-size: 2.5rem;
-            margin-bottom: 1rem;
-        }
-
-        .skill-card h3 {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            color: var(--secondary);
-        }
-
-        .skill-card p {
-            color: rgba(232, 244, 248, 0.7);
-            font-size: 0.9rem;
-        }
-
-        /* Projects Section */
-        .projects-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 2rem;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .project-card {
-            background: rgba(2, 86, 155, 0.05);
-            border: 1px solid rgba(2, 125, 253, 0.2);
-            border-radius: 12px;
-            overflow: hidden;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-
-        .project-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 40px rgba(2, 125, 253, 0.3);
-            border-color: var(--secondary);
-        }
-
-        .project-image {
-            width: 100%;
-            height: 200px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .project-image::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .project-card:hover .project-image::after {
-            left: 100%;
-        }
-
-        .project-info {
-            padding: 1.5rem;
-        }
-
-        .project-info h3 {
-            font-family: 'Syne', sans-serif;
-            font-size: 1.3rem;
-            margin-bottom: 0.5rem;
-            color: var(--accent);
-        }
-
-        .project-info p {
-            color: rgba(232, 244, 248, 0.7);
-            font-size: 0.9rem;
-            margin-bottom: 1rem;
-        }
-
-        .project-tags {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .tag {
-            padding: 0.3rem 0.8rem;
-            background: rgba(2, 125, 253, 0.1);
-            border: 1px solid rgba(2, 125, 253, 0.3);
-            border-radius: 20px;
-            font-size: 0.75rem;
-            color: var(--accent);
-        }
-
-        /* Contact Section */
-        .contact-content {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-
-        .contact-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .contact-link {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 1rem 1.5rem;
-            background: rgba(2, 86, 155, 0.05);
-            border: 1px solid rgba(2, 125, 253, 0.2);
-            border-radius: 8px;
-            color: var(--light);
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-
-        .contact-link:hover {
-            background: rgba(2, 125, 253, 0.1);
-            border-color: var(--secondary);
-            transform: translateY(-2px);
-        }
-
-        /* Footer */
-        footer {
-            padding: 2rem 5%;
-            text-align: center;
-            border-top: 1px solid rgba(2, 125, 253, 0.1);
-            color: rgba(232, 244, 248, 0.5);
-            font-size: 0.9rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            nav ul {
-                gap: 1rem;
-            }
-
-            .hero {
-                min-height: 80vh;
-            }
-
-            .flutter-icon {
-                display: none;
-            }
-
-            .skills-grid, .projects-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .contact-links {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            header {
-                flex-direction: column;
-                gap: 1rem;
-            }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="bg-pattern"></div>
-    <div class="bg-grid"></div>
-
-    <header>
-        <div class="logo">AM.</div>
-        <nav>
-            <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <section id="home" class="hero">
-        <div class="hero-content">
-            <div class="hero-tag">💙 Flutter Developer</div>
-            <h1>
-                Hi, Saya <span class="gradient-text">Adi Maulana</span>
-            </h1>
-            <p>
-                Mobile Developer dengan 3+ tahun pengalaman di Flutter. Expert dalam membangun 
-                aplikasi cross-platform dengan clean architecture, state management (BLoC, Provider, Riverpod), 
-                dan REST API integration. Passionate tentang code quality dan user experience! 🚀
-            </p>
-            <div class="cta-buttons">
-                <a href="#projects" class="btn btn-primary">Lihat Projects</a>
-                <a href="#contact" class="btn btn-secondary">Hubungi Saya</a>
-            </div>
+    <!-- Landing Section -->
+    <section id="landing" class="landing">
+        <div class="landing-content">
+            <h1 class="name">Adi Maulana</h1>
+            <h2 class="title">Flutter Developer</h2>
+            <p class="tagline">Building scalable mobile apps with clean architecture</p>
         </div>
-        <svg class="flutter-icon" viewBox="0 0 256 256" fill="none">
-            <path d="M157.734 0L48.234 109.5L80.234 141.5L189.734 32L157.734 0Z" fill="url(#gradient1)"/>
-            <path d="M157.734 64L112.234 109.5L157.734 155L203.234 109.5L157.734 64Z" fill="url(#gradient2)"/>
-            <defs>
-                <linearGradient id="gradient1" x1="48" y1="0" x2="189" y2="141" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#13B9FD"/>
-                    <stop offset="1" stop-color="#027DFD"/>
-                </linearGradient>
-                <linearGradient id="gradient2" x1="112" y1="64" x2="203" y2="155" gradientUnits="userSpaceOnUse">
-                    <stop stop-color="#54C5F8"/>
-                    <stop offset="1" stop-color="#13B9FD"/>
-                </linearGradient>
-            </defs>
-        </svg>
-    </section>
-
-    <section id="skills">
-        <h2 class="section-title">Skills & <span class="gradient-text">Expertise</span></h2>
-        <div class="skills-grid">
-            <div class="skill-card">
-                <div class="skill-icon">📱</div>
-                <h3>Flutter Development</h3>
-                <p>3+ tahun pengalaman membangun aplikasi cross-platform. Expert dalam Dart dan Flutter framework untuk Android & iOS.</p>
-            </div>
-            <div class="skill-card">
-                <div class="skill-icon">🎨</div>
-                <h3>UI/UX Implementation</h3>
-                <p>Translate design prototypes menjadi aplikasi responsive dengan pixel-perfect accuracy dan smooth animations.</p>
-            </div>
-            <div class="skill-card">
-                <div class="skill-icon">⚡</div>
-                <h3>State Management</h3>
-                <p>Expert menggunakan BLoC, Provider, Riverpod, dan GetX untuk state management yang scalable dan maintainable.</p>
-            </div>
-            <div class="skill-card">
-                <div class="skill-icon">🔌</div>
-                <h3>API Integration</h3>
-                <p>Integrasi REST API, Firebase, OAuth, ERPNext, dan microservices untuk aplikasi yang robust dan data-driven.</p>
-            </div>
-            <div class="skill-card">
-                <div class="skill-icon">💻</div>
-                <h3>Web Development</h3>
-                <p>Pengalaman menggunakan TypeScript dan Node.js untuk membangun dan optimize web applications.</p>
-            </div>
-            <div class="skill-card">
-                <div class="skill-icon">🛠️</div>
-                <h3>Development Tools</h3>
-                <p>Mahir menggunakan VS Code, Figma, Postman, Git untuk workflow development yang efisien.</p>
-            </div>
+        <div class="scroll-indicator">
+            <span>Scroll</span>
+            <div class="arrow"></div>
         </div>
     </section>
 
-    <section id="projects">
-        <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
-        <div class="projects-grid">
-            <div class="project-card">
-                <div class="project-image">📱</div>
-                <div class="project-info">
-                    <h3>M-LinkPro</h3>
-                    <p>Aplikasi mobile di PT. Mega Central Finance yang terintegrasi dengan Kofax untuk document capture. Dibangun dengan Flutter & BLoC pattern.</p>
-                    <div class="project-tags">
-                        <span class="tag">Flutter</span>
-                        <span class="tag">BLoC</span>
-                        <span class="tag">REST API</span>
-                        <span class="tag">Kofax</span>
+    <!-- About Section -->
+    <section id="about" class="section">
+        <div class="container">
+            <h2 class="section-title">About</h2>
+            <div class="about-content">
+                <p class="about-text">
+                    Mobile Developer with 3+ years of experience specializing in Flutter. 
+                    I build responsive, scalable applications with clean architecture principles, 
+                    focusing on maintainability and performance. Currently developing enterprise 
+                    solutions at PT. Mega Central Finance.
+                </p>
+                <div class="stats">
+                    <div class="stat-item">
+                        <div class="stat-number">3+</div>
+                        <div class="stat-label">Years Experience</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">9</div>
+                        <div class="stat-label">Apps Published</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">100%</div>
+                        <div class="stat-label">BLoC Pattern</div>
                     </div>
                 </div>
-            </div>
-            <div class="project-card">
-                <div class="project-image">🏘️</div>
-                <div class="project-info">
-                    <h3>KMP - Kelurahan Management Platform</h3>
-                    <p>Suite aplikasi untuk manajemen kelurahan dengan 3 apps: KMP Pengurus, KMP Warga, dan KMP Petugas. Tersedia di Google Play Store.</p>
-                    <div class="project-tags">
-                        <span class="tag">Flutter</span>
-                        <span class="tag">BLoC</span>
-                        <span class="tag">Multi-App</span>
-                    </div>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-image">🗳️</div>
-                <div class="project-info">
-                    <h3>Electoral Apps Suite</h3>
-                    <p>Koleksi aplikasi untuk proses pemilu: Warga Jaga Suara, IcountSaksi, IcountKorsak, dan Digipol App. Fokus pada real-time data dan user-friendly interface.</p>
-                    <div class="project-tags">
-                        <span class="tag">Flutter</span>
-                        <span class="tag">Real-time</span>
-                        <span class="tag">Firebase</span>
-                    </div>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-image">💼</div>
-                <div class="project-info">
-                    <h3>Simrel</h3>
-                    <p>Aplikasi enterprise untuk manajemen relasi dan data. Dibangun dengan clean architecture dan modern state management.</p>
-                    <div class="project-tags">
-                        <span class="tag">Flutter</span>
-                        <span class="tag">Provider</span>
-                        <span class="tag">ERPNext</span>
-                    </div>
-                </div>
-            </div>
-            <div class="project-card">
-                <div class="project-image">🌐</div>
-                <div class="project-info">
-                    <h3>Web Applications</h3>
-                    <p>Berbagai web apps menggunakan TypeScript dan Node.js. Fokus pada performance optimization dan API integration dengan backend teams.</p>
-                    <div class="project-tags">
-                        <span class="tag">TypeScript</span>
-                        <span class="tag">Node.js</span>
-                        <span class="tag">Microservices</span>
+                <div class="tech-stack">
+                    <h3>Tech Stack</h3>
+                    <div class="tech-tags">
+                        <span class="tech-tag">Flutter</span>
+                        <span class="tech-tag">Dart</span>
+                        <span class="tech-tag">BLoC</span>
+                        <span class="tech-tag">RESTful API</span>
+                        <span class="tech-tag">Git</span>
+                        <span class="tech-tag">Firebase</span>
+                        <span class="tech-tag">TypeScript</span>
+                        <span class="tech-tag">Node.js</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="contact">
-        <h2 class="section-title">Let's <span class="gradient-text">Connect</span></h2>
-        <div class="contact-content">
-            <p>Tertarik untuk kolaborasi atau punya project yang butuh Flutter developer? 
-            Yuk connect! Saya always open untuk diskusi dan opportunity baru.</p>
-            <div class="contact-links">
-                <a href="https://github.com/adimaulanaa" class="contact-link" target="_blank">
-                    <span>🐙</span> GitHub
-                </a>
-                <a href="https://linkedin.com/in/adi-maulana" class="contact-link" target="_blank">
-                    <span>💼</span> LinkedIn
-                </a>
-                <a href="mailto:adimaulana0777@gmail.com" class="contact-link">
-                    <span>📧</span> Email
-                </a>
-                <a href="tel:+6288296223114" class="contact-link">
-                    <span>📱</span> 0882-9622-3114
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+        <div class="container">
+            <h2 class="section-title">Featured Projects</h2>
+            <div class="projects-grid">
+                <!-- Project 1: M-LinkPro -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">M-LinkPro</h3>
+                        <span class="project-type">Enterprise</span>
+                    </div>
+                    <p class="project-description">
+                        Enterprise attendance tracking system with real-time geolocation, 
+                        fake GPS detection, and document scanning integration via Kofax API.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-badge">Flutter</span>
+                        <span class="tech-badge">BLoC</span>
+                        <span class="tech-badge">Geolocation</span>
+                        <span class="tech-badge">Kofax API</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://play.google.com/store/search?q=m+link+pro&c=apps" target="_blank" class="project-link">
+                            <span>View on Play Store</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 2: Attendify -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">Attendify</h3>
+                        <span class="project-type">Personal</span>
+                    </div>
+                    <p class="project-description">
+                        Full-featured attendance management system with role-based access, 
+                        approval workflow, reporting dashboard, and Google Sheets integration.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-badge">Flutter</span>
+                        <span class="tech-badge">BLoC</span>
+                        <span class="tech-badge">Google Sheets API</span>
+                        <span class="tech-badge">Local Storage</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="https://github.com/adimaulanaa/mitask" target="_blank" class="project-link">
+                            <span>View on GitHub</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Project 3: Mitask -->
+                <div class="project-card">
+                    <div class="project-header">
+                        <h3 class="project-title">Mitask</h3>
+                        <span class="project-type">Personal</span>
+                    </div>
+                    <p class="project-description">
+                        Daily task management app with photo attachment capabilities. 
+                        Currently in closed testing phase on Google Play Store.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-badge">Flutter</span>
+                        <span class="tech-badge">BLoC</span>
+                        <span class="tech-badge">Image Picker</span>
+                        <span class="tech-badge">SQLite</span>
+                    </div>
+                    <div class="project-links">
+                        <a href="#" class="project-link">
+                            <span>In Development</span>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section">
+        <div class="container">
+            <h2 class="section-title">Experience</h2>
+            <div class="timeline">
+                <!-- Experience 1 -->
+                <div class="timeline-item">
+                    <div class="timeline-date">Jun 2024 - Present</div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Mobile Developer (Flutter)</h3>
+                        <h4 class="timeline-company">PT. Mega Central Finance</h4>
+                        <ul class="timeline-list">
+                            <li>Built enterprise attendance system with geolocation tracking and fake GPS detection</li>
+                            <li>Implemented BLoC pattern for complex state management across multiple modules</li>
+                            <li>Integrated RESTful APIs with Kofax for document scanning capabilities</li>
+                            <li>Maintained and optimized app performance during production phases</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Experience 2 -->
+                <div class="timeline-item">
+                    <div class="timeline-date">Feb 2023 - May 2024</div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Mobile & Software Developer</h3>
+                        <h4 class="timeline-company">Thinkspedia</h4>
+                        <ul class="timeline-list">
+                            <li>Led hybrid development team for mobile and web applications</li>
+                            <li>Developed multiple Flutter applications with clean architecture principles</li>
+                            <li>Built web applications with focus on performance and maintainability</li>
+                            <li>Coordinated with product team for feature planning and implementation</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Experience 3 -->
+                <div class="timeline-item">
+                    <div class="timeline-date">Apr 2021 - Feb 2023</div>
+                    <div class="timeline-content">
+                        <h3 class="timeline-title">Junior Mobile & Software Developer</h3>
+                        <h4 class="timeline-company">PT. Nitoza Indonesia Mandiri</h4>
+                        <ul class="timeline-list">
+                            <li>Developed Android applications using Flutter and BLoC pattern</li>
+                            <li>Customized ERPNext features based on client requirements</li>
+                            <li>Contributed to bug fixing and application maintenance</li>
+                            <li>Collaborated with product team for feature implementation</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+        <div class="container">
+            <h2 class="section-title">Get In Touch</h2>
+            <div class="contact-content">
+                <p class="contact-text">
+                    I'm always interested in hearing about new opportunities and projects. 
+                    Feel free to reach out!
+                </p>
+                <div class="contact-links">
+                    <a href="mailto:adimaulana0777@gmail.com" class="contact-link">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                        <span>adimaulana0777@gmail.com</span>
+                    </a>
+                    <a href="https://www.linkedin.com/in/adi-maulana" target="_blank" class="contact-link">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                            <rect x="2" y="9" width="4" height="12"></rect>
+                            <circle cx="4" cy="4" r="2"></circle>
+                        </svg>
+                        <span>linkedin.com/in/adi-maulana</span>
+                    </a>
+                    <a href="https://github.com/adimaulanaa" target="_blank" class="contact-link">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+                        </svg>
+                        <span>github.com/adimaulanaa</span>
+                    </a>
+                </div>
+                <a href="/mnt/user-data/uploads/CV_Adi_Maulana.pdf" download class="download-cv">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                        <polyline points="7 10 12 15 17 10"></polyline>
+                        <line x1="12" y1="15" x2="12" y2="3"></line>
+                    </svg>
+                    <span>Download CV</span>
                 </a>
             </div>
         </div>
     </section>
 
-    <footer>
-        <p>&copy; 2026 Adi Maulana. Built with 💙 and Flutter passion.</p>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2026 Adi Maulana. Built with passion and Flutter mindset.</p>
+        </div>
     </footer>
 
-    <script>
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                }
-            });
-        });
-
-        // Add animation on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.skill-card, .project-card').forEach(el => {
-            el.style.opacity = '0';
-            el.style.transform = 'translateY(20px)';
-            el.style.transition = 'all 0.6s ease';
-            observer.observe(el);
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
