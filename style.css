@@ -342,7 +342,7 @@ body {
     padding-left: 2rem;
 }
 
-.timeline::before {
+/* .timeline::before {
     content: '';
     position: absolute;
     left: 7px;
@@ -350,7 +350,7 @@ body {
     bottom: 0;
     width: 1px;
     background-color: #CCCCCC;
-}
+} */
 
 .timeline-item {
     position: relative;
@@ -586,4 +586,18 @@ body {
     .section-title {
         font-size: 1.8rem;
     }
+}
+
+.download-cv {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.download-cv svg {
+    transition: transform 0.3s;
+}
+
+.download-cv:hover svg {
+    transform: translateY(3px);
 }
